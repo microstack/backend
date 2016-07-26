@@ -1,6 +1,7 @@
 Flask
 requests
 flask-sqlalchemy
+bs4
 
 # utils
 ipython
