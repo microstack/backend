@@ -1,5 +1,5 @@
 from . import db
-from movies.models.actor import Actor
+from .actor import Actor
 
 
 actors = db.Table('actors',
