@@ -5,9 +5,9 @@ import json
 import requests
 
 
-def write_movie_info_list_as_json(file_name, movie_info_list):
-    json_data = json.dumps(movie_info_list)
-    with open(movie_info_list_file, 'w') as f:
+def write_movie_data_as_json(file_name, movie_data):
+    json_data = json.dumps(movie_data)
+    with open(movie_data_file, 'w') as f:
         f.write(json_data)
 
 
@@ -51,12 +51,12 @@ def request_movie_api(url, query):
 
 
 def parse_all_movie_data(movies_contents_list):
-    movie_info_list = []
+    movie_data = []
     for movies_contents in movies_contents_list:
         data = parse_movie_data(movies_contents)
         if data != []:
-            movie_info_list.append(data)
-    return movie_info_list
+            movie_data.append(data)
+    return movie_data
 
 
 def parse_movie_data(data):
@@ -68,14 +68,13 @@ def parse_movie_data(data):
 
     movie_info = {}
     
-    actors = []
-    links = {}
-    links.update({'actors': []})
-    actor_links = links['actors']
+    #actors = []
+    #links = {}
+    #links.update({'actors': [dict()]})
+    actors = [dict()]
     for actor_info in common['actor']:
         actor = actor_info['content']
-        actors.append(actor)
-        actor_links.append({actor: actor_info['link']})
+        actors[0].update({actor: actor_info['link']})
     movie_info.update({'actors': actors})
     
     title = data['channel']['q']
@@ -121,4 +120,4 @@ def dumps_pretty(data):
 
 daum_movie_api_url = os.environ.get('DAUM_MOVIE_API_URL')
 movie_names_file = 'data/movie_names.csv'
-movie_info_list_file = 'data/movie_data.csv'
+movie_data_file = 'data/movie_data.csv'
