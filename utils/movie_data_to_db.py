@@ -14,7 +14,7 @@ def read_movie_data_as_objects(file_name):
 
 def one_movie_data_to_db(partial):
     def actors_to_db():
-        for name, link in partial['actors']:
+        for name, link in partial['actors'].items():
             actor = Actor()
             actor.name, actor.link = name, link
             db.session.add(actor)
@@ -38,8 +38,7 @@ def one_movie_data_to_db(partial):
         movie.story = partial['story']
         movie.thumbnail = partial['thumbnail']
 
-        for name in partial['actors']:
-            link = partial['links']['actors'][0][name]
+        for link in partial['actors'].values():
             actor = Actor.query.filter_by(link=link).first()
             movie.actors.append(actor)
 
@@ -49,4 +48,4 @@ def one_movie_data_to_db(partial):
     actors_to_db()
     movie_to_db()
 
-movie_data_file = 'utils/data/movie_data.csv'
+movie_data_file = 'utils/data/movie_data.json'
