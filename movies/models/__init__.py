@@ -7,3 +7,4 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 from . import movie
+from . import actor

@@ -1,4 +1,12 @@
 from . import db
+from movies.models.actor import Actor
+
+
+actors = db.Table('actors',
+    db.Column('actor_id', db.Integer, db.ForeignKey('actor.id')),
+    db.Column('movie_id', db.Integer, db.ForeignKey('movie.id'))
+)
+
 
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -10,6 +18,8 @@ class Movie(db.Model):
     running_time = db.Column(db.Integer)
     story = db.Column(db.String(8000))
     thumbnail = db.Column(db.String(512))
+    actors = db.relationship('Actor', secondary=actors,
+        backref=db.backref('movies', lazy='dynamic'))
 
     def __repr__(self):
         return self.title
