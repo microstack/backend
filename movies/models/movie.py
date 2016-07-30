@@ -10,7 +10,7 @@ actors = db.Table('actors',
 
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(120), unique=True)
+    title = db.Column(db.String(120))
     age = db.Column(db.String(20))
     director = db.Column(db.String(50)) 
     netizen_grade = db.Column(db.Float)

@@ -12,13 +12,23 @@ def read_movie_data_as_objects(file_name):
     return data
 
 
+def all_movie_data_to_db(data):
+    for partial in data:
+        one_movie_data_to_db(partial)
+
+
 def one_movie_data_to_db(partial):
     def actors_to_db():
         for name, link in partial['actors'].items():
+            if Actor.query.filter_by(link=link).first() is not None:
+                print('input actor link already exist : %s, %s' %
+                    (name , link))
+                continue
             actor = Actor()
             actor.name, actor.link = name, link
             db.session.add(actor)
             db.session.commit()
+            print('db commit complete : %s' % actor)
 
     def movie_to_db():
         movie = Movie()
@@ -26,10 +36,23 @@ def one_movie_data_to_db(partial):
         movie.title = partial['title']
         movie.age = partial['age']
         movie.director = partial['director']
-        movie.netizen_grade = float(partial['netizen_grade'])
 
-        year, month, day = partial['release_date'].split('.')
-        movie.release_date = datetime.date(int(year), int(month), int(day))
+        try:
+            movie.netizen_grade = float(partial['netizen_grade'])
+        except ValueError:
+            print("the string format cannot be converted as float : %s" %
+                partial['netizen_grade'])
+
+        date_list = partial['release_date'].split('.')
+        if len(date_list) != 3:
+            print("date format is incorrect, therefore ignored : %s" %
+                date_list)
+        else:
+            year, month, day = partial['release_date'].split('.')
+            year, month, day = int(year), int(month), int(day)
+            if month == 0 or day == 0:
+                month, day = 1, 1
+            movie.release_date = datetime.date(year, month, day)
 
         running_time = partial['running_time']
         movie.running_time = ''.join(
@@ -44,6 +67,7 @@ def one_movie_data_to_db(partial):
 
         db.session.add(movie)
         db.session.commit()
+        print('db commit complete : %s' % movie)
 
     actors_to_db()
     movie_to_db()
