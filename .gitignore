@@ -1,6 +1,5 @@
 # utils
-movie_names.csv
-movie_info_list.csv
+data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
