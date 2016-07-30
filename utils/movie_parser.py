@@ -68,13 +68,10 @@ def parse_movie_data(data):
 
     movie_info = {}
     
-    #actors = []
-    #links = {}
-    #links.update({'actors': [dict()]})
-    actors = [dict()]
+    actors = dict()
     for actor_info in common['actor']:
         actor = actor_info['content']
-        actors[0].update({actor: actor_info['link']})
+        actors.update({actor: actor_info['link']})
     movie_info.update({'actors': actors})
     
     title = data['channel']['q']
