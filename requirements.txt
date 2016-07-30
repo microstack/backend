@@ -2,6 +2,7 @@ Flask
 requests
 flask-sqlalchemy
 bs4
+flask_restful
 
 # utils
 ipython
