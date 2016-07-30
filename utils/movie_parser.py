@@ -20,20 +20,20 @@ def read_movie_names(file_name):
 
 
 def request_movie_api_range(url, movie_names, start=0, end=1):
-    json_contents_list = []
+    movies_contents_list = []
     for movie_name in movie_names[start:end]:
         try:
             data = request_movie_api(daum_movie_api_url, movie_name)
         except:
             continue
 
-        json_contents_list.append(data)
-    return json_contents_list
+        movies_contents_list.append(data)
+    return movies_contents_list
 
 
 def request_movie_api(url, query):
     request_url = daum_movie_api_url.replace("q=", "q=%s" % (query))
-    
+
     response = requests.get(request_url)
     status_code =  response.status_code
 
@@ -45,16 +45,17 @@ def request_movie_api(url, query):
             msg = "bad request : not exist, query : %s" % query
         raise Exception(msg)
 
-    json_contents = json.loads(response.text)
+    movies_contents = json.loads(response.text)
 
-    return json_contents 
+    return movies_contents 
 
 
-def parse_all_movie_data(json_contents_list):
+def parse_all_movie_data(movies_contents_list):
     movie_info_list = []
-    for json_contents in json_contents_list:
-        data = parse_movie_data(json_contents)
-        movie_info_list.append(data)
+    for movies_contents in movies_contents_list:
+        data = parse_movie_data(movies_contents)
+        if data != []:
+            movie_info_list.append(data)
     return movie_info_list
 
 
@@ -62,7 +63,8 @@ def parse_movie_data(data):
     try:
         common = data['channel']['item'][0]
     except IndexError:
-        raise Exception("not found, query items : %s" % query) 
+        print("not found, query items") 
+        return []
 
     movie_info = {}
     
@@ -114,5 +116,5 @@ def parse_movie_data(data):
 
 
 daum_movie_api_url = os.environ.get('DAUM_MOVIE_API_URL')
-movie_names_file = 'movie_names.csv'
-movie_info_list_file = 'movie_info_list.csv'
+movie_names_file = 'data/movie_names.csv'
+movie_info_list_file = 'data/movie_data.csv'
