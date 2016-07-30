@@ -115,6 +115,10 @@ def parse_movie_data(data):
     return movie_info
 
 
+def dumps_pretty(data):
+    return json.dumps(data, ensure_ascii=False, indent=4)
+
+
 daum_movie_api_url = os.environ.get('DAUM_MOVIE_API_URL')
 movie_names_file = 'data/movie_names.csv'
 movie_info_list_file = 'data/movie_data.csv'
