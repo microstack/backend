@@ -30,5 +30,11 @@ class MovieSchema(ma.ModelSchema):
         model = Movie
 
 
+class MovieListSchema(MovieSchema):
+    class Meta:
+        fields = ('id', 'title', 'movie')
+
+
 movie_schema = MovieSchema()
 movies_schema = MovieSchema(many=True)
+movie_list_schema = MovieListSchema(many=True)

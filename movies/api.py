@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-from models.movie import Movie, movies_schema, movie_schema
+from models.movie import Movie, movie_list_schema, movies_schema, movie_schema
 from models.actor import Actor, actors_schema, actor_schema
 from models import db
 
@@ -14,7 +14,7 @@ api = Api(app)
 class MovieList(Resource):
     def get(self):
         data = Movie.query.all()
-        return movies_schema.dump(data).data
+        return movie_list_schema.dump(data).data
 
 
 class MovieDetail(Resource):
@@ -58,9 +58,9 @@ class ActorDetail(Resource):
 
 api.add_resource(MovieList, '/movies/')
 api.add_resource(MovieDetail, '/movies/<id>/')
-api.add_resource(MovieDetailActors, '/movies/<id>/actors')
-api.add_resource(MoviesLatest, '/movies/latest')
-api.add_resource(MoviesHighGrade, '/movies/grade')
+api.add_resource(MovieDetailActors, '/movies/<id>/actors/')
+api.add_resource(MoviesLatest, '/movies/latest/')
+api.add_resource(MoviesHighGrade, '/movies/grade/')
 
 api.add_resource(ActorList, '/actors/')
 api.add_resource(ActorDetail, '/actors/<id>')
