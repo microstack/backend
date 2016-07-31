@@ -14,4 +14,6 @@ class ActorSchema(ma.ModelSchema):
     class Meta:
         model = Actor
 
+
+actor_schema = ActorSchema()
 actors_schema = ActorSchema(many=True)

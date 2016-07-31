@@ -29,4 +29,6 @@ class MovieSchema(ma.ModelSchema):
     class Meta:
         model = Movie
 
+
+movie_schema = MovieSchema()
 movies_schema = MovieSchema(many=True)
