@@ -3,6 +3,8 @@ requests
 flask-sqlalchemy
 bs4
 flask_restful
+flask-marshmallow
+marshmallow-sqlalchemy
 
 # utils
 ipython
