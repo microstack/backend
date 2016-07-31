@@ -61,7 +61,3 @@ api.add_resource(MoviesHighGrade, '/movies/grade/')
 
 api.add_resource(ActorList, '/actors/')
 api.add_resource(ActorDetail, '/actors/<id>')
-
-
-if __name__ == '__main__':
-    app.run()
