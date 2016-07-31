@@ -1,16 +1,15 @@
 import requests
 import os
 
-from flask import render_template
-from flask import Flask
-app = Flask(__name__)
+from models.movie import Movie, movie_list_schema, movies_schema, movie_schema
+
+from flask import jsonify, json
+
+from settings import app
 
 
-@app.route('/movies/')
+@app.route('/movies/', methods=['GET'])
 def movie_list():
-    return '/movies/ from movies_backed'
-
-
-if __name__ == '__main__':
-    port = os.environ.get('MOVIES_BACKEND_PORT')
-    app.run(port=port)
+    data = Movie.query.all()
+    result = movie_list_schema.jsonify(data)
+    return result
