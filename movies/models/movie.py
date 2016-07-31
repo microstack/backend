@@ -32,7 +32,7 @@ class MovieSchema(ma.ModelSchema):
 
 class MovieListSchema(MovieSchema):
     class Meta:
-        fields = ('id', 'title', 'movie')
+        fields = ('id', 'title')
 
 
 movie_schema = MovieSchema()
