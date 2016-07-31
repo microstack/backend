@@ -24,6 +24,7 @@ class Movie(db.Model):
     def __repr__(self):
         return self.title
 
+
 class MovieSchema(ma.ModelSchema):
     class Meta:
         model = Movie

@@ -1,4 +1,4 @@
-from . import db
+from . import db, ma
 
 
 class Actor(db.Model):
@@ -8,3 +8,10 @@ class Actor(db.Model):
 
     def __repr__(self):
         return self.name
+
+
+class ActorSchema(ma.ModelSchema):
+    class Meta:
+        model = Actor
+
+actors_schema = ActorSchema(many=True)
