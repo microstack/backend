@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
-from models.movie import Movie, movie_list_schema, movies_schema, movie_schema
+from models.movie import Movie, movie_list_schema, movies_schema,\
+    movie_schema
 from models.actor import Actor, actors_schema, actor_schema
 
 from flask import Flask
