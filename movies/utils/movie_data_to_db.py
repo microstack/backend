@@ -4,8 +4,9 @@ import datetime
 from movies.models import db
 from movies.models.actor import Actor
 from movies.models.movie import Movie
+from movies.models.genre import Genre
 
-def read_movie_data_as_objects(file_name):
+def read_movie_data_as_py_object(file_name):
     data = []
     with open(file_name, 'r') as f:
         data = json.loads(f.read())
@@ -18,6 +19,23 @@ def all_movie_data_to_db(data):
 
 
 def one_movie_data_to_db(partial):
+    def genres_to_db():
+        for name in partial['genres']:
+            query = Genre.query.filter_by(name=name).first()
+            if query is not None:
+                print('The genre already exists : %s' % name)
+                continue
+            elif query is '':
+                print('blank query filtered')
+                continue
+ 
+            genre = Genre()
+            genre.name = name
+            db.session.add(genre)
+            db.session.commit()
+            print('db commit complete : %s' % genre)
+
+       
     def actors_to_db():
         for name, link in partial['actors'].items():
             if Actor.query.filter_by(link=link).first() is not None:
@@ -61,6 +79,10 @@ def one_movie_data_to_db(partial):
         movie.story = partial['story']
         movie.thumbnail = partial['thumbnail']
 
+        for name in partial['genres']:
+            genre = Genre.query.filter_by(name=name).first()
+            movie.genres.append(genre)
+
         for link in partial['actors'].values():
             actor = Actor.query.filter_by(link=link).first()
             movie.actors.append(actor)
@@ -69,10 +91,18 @@ def one_movie_data_to_db(partial):
         db.session.commit()
         print('db commit complete : %s' % movie)
 
+    genres_to_db()
     actors_to_db()
     movie_to_db()
 
 
 import os
 path = os.environ.get('MOVIES_UTIL_DATA_PATH')
-movie_data_file = path + 'movie_data.json'
+movie_data_path = path + 'movie_data.json'
+
+
+def all_in_one():
+    db.drop_all()
+    db.create_all()
+    data = read_movie_data_as_py_object(movie_data_path)
+    all_movie_data_to_db(data)
