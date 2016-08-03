@@ -3,7 +3,7 @@
 from models.movie import Movie, movie_list_schema, movies_schema,\
     movie_schema
 from models.actor import Actor, actors_schema, actor_schema
-from models.genre import Genre, genre_list_schema
+from models.genre import Genre, genres_schema
 
 from flask import Flask
 from flask_restful import Resource
@@ -25,6 +25,12 @@ class MovieDetailActors(Resource):
     def get(self, id):
         data = Movie.query.filter_by(id=id).first()
         return actors_schema.dump(data.actors)
+
+
+class MovieDetailGenres(Resource):
+    def get(self, id):
+        data = Movie.query.filter_by(id=id).first()
+        return genres_schema.dump(data.genres)
 
 
 class MoviesLatest(Resource):
@@ -54,7 +60,7 @@ class ActorDetail(Resource):
 class GenreList(Resource):
     def get(self):
         data = Genre.query.all()
-        return genre_list_schema.dump(data).data
+        return genres_schema.dump(data).data
 
 
 from flask_restful import Api
@@ -64,6 +70,7 @@ api = Api(app)
 api.add_resource(MovieList, '/movies/')
 api.add_resource(MovieDetail, '/movies/<id>/')
 api.add_resource(MovieDetailActors, '/movies/<id>/actors/')
+api.add_resource(MovieDetailGenres, '/movies/<id>/genres/')
 api.add_resource(MoviesLatest, '/movies/latest/')
 api.add_resource(MoviesHighGrade, '/movies/grade/')
 
