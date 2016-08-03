@@ -13,4 +13,4 @@ class GenreSchema(ma.ModelSchema):
         model = Genre
 
 
-genres_schema = GenreSchema(many=True)
+genre_list_schema = GenreSchema(many=True)
