@@ -7,8 +7,16 @@ import requests
 
 def write_movie_data_as_json(file_name, movie_data):
     json_data = json.dumps(movie_data)
-    with open(movie_data_file, 'w') as f:
+    with open(file_name, 'w') as f:
         f.write(json_data)
+
+
+def read_raw_movie_data_as_py_object(file_name):
+    data = [] 
+    with open(file_name, 'r') as f:
+        json_data = f.read()
+        data = json.loads(json_data)
+        return data
 
 
 def read_movie_names(file_name):
@@ -80,17 +88,16 @@ def parse_movie_data(data):
     director_info = common['director'][0]
     director = director_info['content']
     movie_info.update({'director': director})
-    links.update({'director': director_info['link']})
+    movie_info.update({'director': director})
     
     genres = []
     for genre_info in common['genre']:
         genres.append(genre_info['content'])
-    movie_info.update({'director': director})
+    movie_info.update({'genres': genres})
     
     grade_info = common['grades'][0]
     netizen_grade = grade_info['content']
     movie_info.update({'netizen_grade': netizen_grade})
-    links.update({'netizen_grade': grade_info['link']})
     
     story = common['story'][0]['content']
     movie_info.update({'story': story})
@@ -106,8 +113,6 @@ def parse_movie_data(data):
     thumbnail = common['thumbnail'][0]['content']
     movie_info.update({'thumbnail': thumbnail})
 
-    movie_info.update({'links': links})
-
     return movie_info
 
 
@@ -116,5 +121,7 @@ def dumps_pretty(data):
 
 
 daum_movie_api_url = os.environ.get('DAUM_MOVIE_API_URL')
-movie_names_file = 'data/movie_names.csv'
-movie_data_file = 'data/movie_data.csv'
+path = os.environ.get('MOVIES_UTIL_DATA_PATH')
+movie_names_path = path + 'movie_names.csv'
+movie_data_path = path + 'movie_data.json'
+raw_movie_data_path = path + 'raw_movie_data.json'

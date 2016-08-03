@@ -72,4 +72,7 @@ def one_movie_data_to_db(partial):
     actors_to_db()
     movie_to_db()
 
-movie_data_file = 'utils/data/movie_data.json'
+
+import os
+path = os.environ.get('MOVIES_UTIL_DATA_PATH')
+movie_data_file = path + 'movie_data.json'
