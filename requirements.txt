@@ -8,3 +8,6 @@ marshmallow-sqlalchemy
 
 # utils
 ipython
+
+# web
+gunicorn
