@@ -68,13 +68,13 @@ from settings import app
 
 api = Api(app)
 api.add_resource(MovieList, '/movies/')
-api.add_resource(MovieDetail, '/movies/<id>/')
-api.add_resource(MovieDetailActors, '/movies/<id>/actors/')
-api.add_resource(MovieDetailGenres, '/movies/<id>/genres/')
+api.add_resource(MovieDetail, '/movies/<int:id>/')
+api.add_resource(MovieDetailActors, '/movies/<int:id>/actors/')
+api.add_resource(MovieDetailGenres, '/movies/<int:id>/genres/')
 api.add_resource(MoviesLatest, '/movies/latest/')
 api.add_resource(MoviesHighGrade, '/movies/grade/')
 
 api.add_resource(ActorList, '/actors/')
-api.add_resource(ActorDetail, '/actors/<id>')
+api.add_resource(ActorDetail, '/actors/<int:id>')
 
 api.add_resource(GenreList, '/genres/')
