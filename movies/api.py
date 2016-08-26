@@ -35,13 +35,13 @@ class MovieDetailGenres(Resource):
 
 class MoviesLatest(Resource):
     def get(self):
-        data = Movie.query.order_by(Movie.release_date.desc())[:10]
+        data = Movie.query.order_by(Movie.release_date.desc())[:5]
         return movies_schema.dump(data).data
 
 
 class MoviesHighGrade(Resource):
     def get(self):
-        data = Movie.query.order_by(Movie.netizen_grade.desc())[:10]
+        data = Movie.query.order_by(Movie.netizen_grade.desc())[:5]
         return movies_schema.dump(data).data
 
 
