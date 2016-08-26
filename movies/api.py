@@ -65,7 +65,7 @@ class GenreList(Resource):
 class GenreMovieList(Resource):
     def get(self, name):
 
-        data = Movie.query.filter(Movie.genres.any(name=name)).all()
+        data = Movie.query.filter(Movie.genres.any(name=name)).all()[:5]
 
         if data == []:
             # execute an exception or showing an info later
