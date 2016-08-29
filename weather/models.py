@@ -17,6 +17,9 @@ class City(db.Model):
     name = db.Column(db.String(30))
     weathers = db.relationship('Weather', backref='city', lazy='dynamic')
 
+    def __repr__(self):
+        return self.name
+
 
 class Weather(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -44,5 +47,11 @@ class PublishSchema(ma.ModelSchema):
         model = Publish
 
 
-publish_schema = PublishSchema(many=True)
+class PublishListSchema(PublishSchema):
+    class Meta:
+        fields = ('id', 'date')
+
+
+publish_schema = PublishSchema()
+publish_list_schema = PublishListSchema(many=True)
 weather_schema = WeatherSchema()
