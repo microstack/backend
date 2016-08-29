@@ -5,6 +5,9 @@ class PubDate(db.Model):
     id = db.Column(db.Integer, unique=True, primary_key=True)
     date = db.Column(db.String(40), unique=True)
 
+    weathers = db.relationship('Weather', backref='pub_date',
+                                lazy='dynamic')
+
     def __repr__(self):
         return self.date
 
@@ -18,6 +21,8 @@ class Weather(db.Model):
     min_temparature = db.Column(db.Integer)
     max_temparature = db.Column(db.Integer)
     reliablity = db.Column(db.String(20))
+
+    pub_date_id = db.Column(db.Integer, db.ForeignKey('pub_date.id'))
 
     def __repr__(self):
         return self.date
