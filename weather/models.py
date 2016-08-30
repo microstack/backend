@@ -37,6 +37,10 @@ class WeatherSchema(ma.ModelSchema):
         model = Weather
 
 
+class WeatherListSchema(WeatherSchema):
+    pass
+
+
 class PublishSchema(ma.ModelSchema):
     class Meta:
         model = Publish
@@ -44,9 +48,9 @@ class PublishSchema(ma.ModelSchema):
 
 class PublishListSchema(PublishSchema):
     class Meta:
-        fields = ('id', 'date')
+        fields = ('date',)
 
 
 publish_schema = PublishSchema()
 publish_list_schema = PublishListSchema(many=True)
-weather_schema = WeatherSchema()
+weather_list_schema = WeatherListSchema(many=True)
