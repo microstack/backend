@@ -12,15 +12,6 @@ class Publish(db.Model):
         return self.date
 
 
-class City(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30))
-    weathers = db.relationship('Weather', backref='city', lazy='dynamic')
-
-    def __repr__(self):
-        return self.name
-
-
 class Weather(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -29,9 +20,9 @@ class Weather(db.Model):
     min_temparature = db.Column(db.Integer)
     max_temparature = db.Column(db.Integer)
     reliablity = db.Column(db.String(20))
+    city = db.Column(db.String(30))
 
     publish_id = db.Column(db.Integer, db.ForeignKey('publish.id'))
-    city_id = db.Column(db.Integer, db.ForeignKey('city.id'))
 
     def __repr__(self):
         return self.date
