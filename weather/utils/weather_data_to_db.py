@@ -6,16 +6,16 @@ from bs4 import BeautifulSoup
 URL = os.environ['SEOUL_GYEONGGI_URL']
 
 
-def get_bs_objects_from_url(url=URL):
+def get_bs_object_from_url(url=URL):
     response = requests.get(url)
     # exception handling needed.
-    bs_objects = BeautifulSoup(response.text, "html.parser")
+    bs_object = BeautifulSoup(response.text, "html.parser")
 
-    return bs_objects
+    return bs_object
 
-def parse_data_as_json(bs_objects):
+def parse_data_as_publish_publish_object(bs_object):
     """
-    json_objects will be like
+    publish_object will be like
     publish objects =
         {'cities': [{'city': '서울',
             'weathers': [{
@@ -31,9 +31,9 @@ def parse_data_as_json(bs_objects):
         'summary': '이번 예보기간에는...'}}
     """
 
-    json_objects = dict()
+    publish_object = dict()
 
-    header = bs_objects.find('header')
+    header = bs_object.find('header')
 
     # format yyyy-mm-dd
     tm_data = header.find('tm').text
@@ -41,12 +41,12 @@ def parse_data_as_json(bs_objects):
 
     summary = header.find('wf').text
 
-    json_objects['publish'] = {'pub_date': pub_date, 'summary': summary}
+    publish_object['publish'] = {'pub_date': pub_date, 'summary': summary}
 
-    locationed_data_list = bs_objects.find_all('location')
+    locationed_data_list = bs_object.find_all('location')
 
-    json_objects['cities'] = []
-    cities = json_objects['cities']
+    publish_object['cities'] = []
+    cities = publish_object['cities']
     city = ''
     for locationed_data in locationed_data_list:
         city = locationed_data.find('city').text
@@ -66,6 +66,10 @@ def parse_data_as_json(bs_objects):
             })
         cities.append(city_weathers)
 
-    return json_objects
+    return publish_object
 
-data = parse_data_as_json(get_bs_objects_from_url())
+
+publish_object = parse_data_as_publish_publish_object(
+    get_bs_object_from_url())
+def publish_object_to_db(publish_object=publish_object):
+    pass

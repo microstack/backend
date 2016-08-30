@@ -2,8 +2,11 @@ from settings import db, ma
 
 
 class Publish(db.Model):
-    id = db.Column(db.Integer, unique=True, primary_key=True)
-    date = db.Column(db.String(40), unique=True)
+    '''
+    Actually, API provide 2 data in a day, but this service only save a data.
+    Therefore date should be 'yyyy-mm-dd'
+    '''
+    date = db.Column(db.String(40), unique=True, primary_key=True)
     summary = db.Column(db.String(1024))
 
     weathers = db.relationship('Weather', backref='publish', lazy='dynamic')
@@ -22,7 +25,7 @@ class Weather(db.Model):
     reliablity = db.Column(db.String(20))
     city = db.Column(db.String(30))
 
-    publish_id = db.Column(db.Integer, db.ForeignKey('publish.id'))
+    publish_date = db.Column(db.String, db.ForeignKey('publish.date'))
 
     def __repr__(self):
         return self.date
