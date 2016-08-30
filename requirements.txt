@@ -6,6 +6,8 @@ flask_restful
 flask-marshmallow
 marshmallow-sqlalchemy
 
+celery
+
 # utils
 ipython
 
