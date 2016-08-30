@@ -14,6 +14,23 @@ def get_bs_objects_from_url(url=URL):
     return bs_objects
 
 def parse_data_as_json(bs_objects):
+    """
+    json_objects will be like
+    publish objects =
+        {'cities': [{'city': '서울',
+            'weathers': [{
+                'date': '2016-09-02',
+                'reliability': '보통',
+                'temp_max': '28',
+                'temp_min': '23',
+                'weather': '구름많음'
+            },
+            ...
+            }]
+        'publish': {'pub_date': '2016-08-30',
+        'summary': '이번 예보기간에는...'}}
+    """
+
     json_objects = dict()
 
     header = bs_objects.find('header')
