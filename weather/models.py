@@ -3,8 +3,8 @@ from settings import db, ma
 
 class Publish(db.Model):
     '''
-    Actually, API provide 2 data in a day, but this service only save a data.
-    Therefore date should be 'yyyy-mm-dd'
+    Actually, weather rss provides 2 data in a day, but this service only save
+    a data. Therefore date should be 'yyyy-mm-dd'
     '''
     date = db.Column(db.String(40), unique=True, primary_key=True)
     summary = db.Column(db.String(1024))
@@ -22,7 +22,8 @@ class Weather(db.Model):
     province = db.Column(db.String(40))
     min_temparature = db.Column(db.Integer)
     max_temparature = db.Column(db.Integer)
-    reliablity = db.Column(db.String(20))
+    weather = db.Column(db.String(20))
+    reliability = db.Column(db.String(20))
     city = db.Column(db.String(30))
 
     publish_date = db.Column(db.String, db.ForeignKey('publish.date'))
