@@ -121,7 +121,13 @@ def publish_object_to_db(publish_object, db):
     for city in cities:
         city_name = city['city']
         weathers = city['weathers']
-        for weather in weathers:
+        for weather in weathers[0::2]:
+            '''
+            Get only 00:00 data(7 days), therefore skip 12:00 data
+            rss day format is like
+            <tmEf>2016-09-02 00:00</tmEf>...
+            <tmEf>2016-09-02 12:00</tmEf>...
+            '''
             weather = Weather(
                 date=weather['date'], reliability=weather['reliability'],
                 min_temparature=weather['temp_min'],
