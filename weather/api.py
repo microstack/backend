@@ -31,12 +31,11 @@ class PublishWeather(Resource):
         if data.count() > 0:
             data = data[0]
             weather_data = list(data.weathers)
-            print(weather_data)
 
         return weather_list_schema.dump(weather_data).data
 
 
-class Today(Resource):
+class TodayPublish(Resource):
     def get(self):
         '''
         if today query not exist, it means
@@ -44,11 +43,28 @@ class Today(Resource):
         '''
         today = date.today().isoformat()
         data = Publish.query.filter_by(date=today)
-        weather_data = []
         if data.count() > 0:
             data = data[0]
+
+        return publish_schema.dump(data).data
+
+
+class TodayWeather(Resource):
+    def get(self):
+        '''
+        if today query not exist, it means
+        not updated yet(local or rss).
+        Weather data is not specified by city. therefore in the front,
+        it should be processed. for now it assumes city objects are seperated
+        by 7 indexes
+        '''
+        today = date.today().isoformat()
+        data = Publish.query.filter_by(date=today)
+        weather_data = []
+        if data.count() > 0:
+            data.order_by('city')
+            data = data[0]
             weather_data = list(data.weathers)
-            print(weather_data)
 
         return weather_list_schema.dump(weather_data).data
  
@@ -57,7 +73,8 @@ from flask_restful import Api
 from settings import app
 
 api = Api(app)
-api.add_resource(PublishList, '/weather/publishes/')
-api.add_resource(PublishDetail, '/weather/publishes/<string:date>/')
-api.add_resource(PublishWeather, '/weather/publishes/<string:date>/weather/')
-api.add_resource(Today, '/weather/today/')
+api.add_resource(PublishList, '/weather/')
+api.add_resource(PublishDetail, '/weather/<string:date>/')
+api.add_resource(PublishWeather, '/weather/<string:date>/weather/')
+api.add_resource(TodayPublish, '/weather/today/')
+api.add_resource(TodayWeather, '/weather/today/weather/')
